@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Raining Effect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet"> <!-- Import Mea Culpa font -->
+    <style>
+        body {
+            overflow: hidden;
+            background-color: #ffe6f2; /* Light pink background */
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .title-svg {
+            width: 500px;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .button {
+            padding: 10px 30px;
+            width: 100px;
+            height: 40px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #ff66b2;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button:hover {
+            background-color: #e05599;
+        }
+
+        .hidden-paragraph {
+            font-size: 20px;
+            color: #cc6699;
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: #ff66b2;
+            animation: fall 3s infinite;
+        }
+
+        .laughing-face {
+            position: absolute;
+            font-size: 24px;
+            color: #ffcc00;
+            animation: fall 3s forwards;
+        }
+
+        /* Falling animation for hearts */
+        @keyframes fall {
+            0% { top: -50px; opacity: 1; }
+            100% { top: 100vh; opacity: 0; }
+        }
+
+        /* Button animations */
+        @keyframes swapInwardLeft {
+            0% { transform: translateX(0); opacity: 1; }
+            50% { transform: translateX(40px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes swapInwardRight {
+            0% { transform: translateX(0); opacity: 1; }
+            50% { transform: translateX(-40px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        .swap-inward-left {
+            animation: swapInwardLeft 0.8s ease-in-out forwards;
+        }
+
+        .swap-inward-right {
+            animation: swapInwardRight 0.8s ease-in-out forwards;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SVG title with curved text -->
+    <svg class="title-svg" viewBox="0 0 500 200">
+        <path id="curve" d="M100,150 Q250,50 400,150" fill="transparent" />
+        <text width="500" style="font-size: 55px; fill: #cc6699; font-family: 'Mea Culpa', cursive; text-anchor: middle;">
+            <textPath xlink:href="#curve" startOffset="50%">
+                Love is in the Air!
+            </textPath>
+        </text>
+    </svg>
+
+    <div class="button-container" id="buttonContainer">
+        <button class="button" id="yesButton" onclick="handleYes()">Yes</button>
+        <button class="button" id="noButton" onclick="handleNo()">No</button>
+    </div>
+
+    <!-- Hidden paragraph that shows after clicking Yes -->
+    <p class="hidden-paragraph" id="hiddenParagraph">You clicked Yes! Love is truly in the air! 💖</p>
+
+    <script>
+        function createHeart() {
+            const heart = document.createElement('i');
+            heart.className = 'fas fa-heart heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        function createLaughingFace() {
+            const laughingFace = document.createElement('i');
+            laughingFace.className = 'fas fa-laugh-squint laughing-face';
+            laughingFace.style.left = Math.random() * 100 + 'vw';
+            laughingFace.style.animationDuration = '3s';
+            document.body.appendChild(laughingFace);
+            setTimeout(() => {
+                laughingFace.remove();
+            }, 3000);
+        }
+
+        setInterval(createHeart, 500);
+
+        function handleYes() {
+            const paragraph = document.getElementById('hiddenParagraph');
+            paragraph.style.display = 'block';
+        }
+
+        function handleNo() {
+            const yesButton = document.getElementById('yesButton');
+            const noButton = document.getElementById('noButton');
+            yesButton.classList.add('swap-inward-left');
+            noButton.classList.add('swap-inward-right');
+            for (let i = 0; i < 3; i++) {
+                createLaughingFace();
+            }
+            setTimeout(() => {
+                const buttonContainer = document.getElementById('buttonContainer');
+                yesButton.classList.remove('swap-inward-left');
+                noButton.classList.remove('swap-inward-right');
+                if (yesButton.nextSibling === noButton) {
+                    buttonContainer.insertBefore(noButton, yesButton);
+                } else {
+                    buttonContainer.insertBefore(yesButton, noButton);
+                }
+            }, 800);
+        }
+    </script>
+
+</body>
+</html>
