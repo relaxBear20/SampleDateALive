@@ -9,7 +9,7 @@
     <style>
         body {
             overflow: auto; /* Allow vertical scrolling */
-            background-color: #ffe6f2; /* Light pink background */
+            background-color: #FF90BC; /* Light pink background */
             position: relative;
             display: flex;
             flex-direction: column;
@@ -20,7 +20,15 @@
 
         .title-svg {
             width: 500px;
-            margin-bottom: 20px;
+            margin-bottom: 10px; /* Adjust margin for spacing */
+        }
+
+        .subtitle {
+            font-size: 20px; /* Set subtitle font size */
+            color: #F8E8EE; /* Subtitle text color */
+            margin-bottom: 20px; /* Space between subtitle and buttons */
+            text-align: center; /* Center align the subtitle */
+            z-index: 1;
         }
 
         .button-container {
@@ -33,9 +41,9 @@
 
         .button {
             padding: 10px 30px;
-            width: 100px;
-            height: 40px;
-            font-size: 18px;
+            width: 150px;
+            height: 50px;
+            font-size: 20px;
             color: #fff;
             background-color: #ff66b2;
             border: none;
@@ -45,6 +53,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+			font-family: 'Dancing Script';
         }
 
         .button:hover {
@@ -53,9 +62,18 @@
 
         .hidden-paragraph {
             font-size: 20px;
-            color: #cc6699;
+            color: #F8E8EE;
             margin-top: 20px;
-            display: none;
+            display: none; /* Start as hidden */
+            text-align: center;
+            z-index: 1;
+        }
+
+        .no-text {
+            font-size: 20px;
+            color: #F8E8EE;
+            margin-top: 20px;
+            display: none; /* Start as hidden */
             text-align: center;
             z-index: 1;
         }
@@ -69,22 +87,23 @@
             border-radius: 12px; /* Round corners */
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Add shadow */
             font-family: 'Dancing Script', cursive; /* Set table font to Dancing Script */
-            overflow: hidden; /* Ensure the border-radius effect works */
             opacity: 0; /* Initially hidden */
             transform: translateY(20px); /* Slide in effect */
-            animation: fadeInSlideIn 0.5s forwards; /* Apply animation */
             display: none; /* Hide initially */
+            border: 2px solid white; /* White border */
+            overflow: hidden; /* Ensure corners are rounded */
         }
 
         .schedule-table th,
         .schedule-table td {
             padding: 10px;
             text-align: left;
+            color: #FF90BC; /* Text color for table cells */
         }
 
         .schedule-table th {
             background-color: #ffccff; /* Light pink header background */
-            color: #000;
+            color: #FF90BC; /* Header text color set to #FF90BC */
             font-weight: bold; /* Bold table header */
         }
 
@@ -100,15 +119,8 @@
         .heart {
             position: absolute;
             font-size: 24px;
-            color: #ff66b2;
+            color: #FFC0D9;
             animation: fall 3s infinite;
-        }
-
-        .laughing-face {
-            position: absolute;
-            font-size: 24px;
-            color: #ffcc00;
-            animation: fall 3s forwards;
         }
 
         /* Falling animation for hearts */
@@ -129,75 +141,45 @@
             }
         }
 
-        /* Button animations */
-        @keyframes swapInwardLeft {
-            0% { transform: translateX(0); opacity: 1; }
-            50% { transform: translateX(40px); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
+        /* Shaking animation for the No button */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
         }
 
-        @keyframes swapInwardRight {
-            0% { transform: translateX(0); opacity: 1; }
-            50% { transform: translateX(-40px); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
-        }
-
-        .swap-inward-left {
-            animation: swapInwardLeft 0.8s ease-in-out forwards;
-        }
-
-        .swap-inward-right {
-            animation: swapInwardRight 0.8s ease-in-out forwards;
-        }
-
-        /* Google Map styles */
-        #map {
-            width: 100%;
-            height: 400px; /* Set height for the map */
-            margin-top: 20px; /* Margin above the map */
+        .shake {
+            animation: shake 0.5s ease forwards; /* Apply shake animation */
         }
     </style>
-    <script>
-        let map;
-
-        function initMap() {
-            // Map options
-            const options = {
-                zoom: 10,
-                center: { lat: 21.0285, lng: 105.804 } // Coordinates for Hanoi, Vietnam
-            };
-
-            // New map
-            map = new google.maps.Map(document.getElementById('map'), options);
-
-            // Add marker
-            const marker = new google.maps.Marker({
-                position: { lat: 21.0285, lng: 105.804 },
-                map: map,
-                title: 'Hanoi'
-            });
-        }
-    </script>
 </head>
 <body>
 
     <!-- SVG title with curved text -->
     <svg class="title-svg" viewBox="0 0 500 200">
         <path id="curve" d="M100,150 Q250,50 400,150" fill="transparent" />
-        <text width="500" style="font-size: 45px; fill: #cc6699; font-family: 'Dancing Script', cursive; text-anchor: middle;">
+        <text width="500" style="font-size: 40px; fill: #F8E8EE; font-family: 'Dancing Script', cursive; text-anchor: middle;">
             <textPath xlink:href="#curve" startOffset="50%">
-                Love is in the Air!
+                Hường ơi, đi chơi thui!
             </textPath>
         </text>
     </svg>
 
+    <!-- Subtitle under the title -->
+    <div class="subtitle">Mini tour Hà Lội cùng bạn Đức Nhong, ngày 2/11</div>
+
     <div class="button-container" id="buttonContainer">
-        <button class="button" id="yesButton" onclick="handleYes()">Yes</button>
-        <button class="button" id="noButton" onclick="handleNo()">No</button>
+        <button class="button" style="color: #F8E8EE;" id="yesButton" onclick="handleYes()">Cóa 💝</button>
+        <button class="button" style="color: #F8E8EE;" id="noButton" onclick="handleNo()">Khum 🙃</button>
     </div>
 
     <!-- Hidden paragraph that shows after clicking Yes -->
-    <p class="hidden-paragraph" id="hiddenParagraph">You clicked Yes! Love is truly in the air! 💖</p>
+    <p class="hidden-paragraph" id="hiddenParagraph">Em đã cắn câu!! Lịch trình nè 💖</p>
+
+    <!-- Text shown when clicking No -->
+    <p class="no-text" id="noText">Thui mà xin đấy 😖</p>
 
     <!-- Schedule table -->
     <table class="schedule-table" id="scheduleTable">
@@ -208,67 +190,78 @@
             </tr>
         </thead>
         <tbody>
+			<tr>
+                <td>Ngày 2/11</td>
+                <td></td>
+            </tr>
             <tr>
-                <td>Khởi hành</td>
+                <td>Khởi hành 🛵</td>
                 <td>10:00</td>
             </tr>
             <tr>
-                <td>Ăn nhẹ sáng</td>
+                <td>Ăn nhẹ sáng 🙋</td>
                 <td>10:10</td>
             </tr>
             <tr>
-                <td>Thăm quan bảo tàng + làm gốm</td>
+                <td>Thăm quan bảo tàng + làm gốm 🤓</td>
                 <td>10:40</td>
             </tr>
             <tr>
-                <td>Ăn trưa</td>
+                <td>Ăn trưa 😚</td>
                 <td>12:00</td>
             </tr>
             <tr>
-                <td>Chơi tại chợ gốm | đi cafe</td>
+                <td>Chơi tại chợ gốm | đi cafe ☕️</td>
                 <td>13:10</td>
             </tr>
             <tr>
-                <td>Di chuyển tới KS</td>
+                <td>Di chuyển tới KS 🏎</td>
                 <td>15:00</td>
             </tr>
             <tr>
-                <td>Thăm quan khu Vin</td>
+                <td>Thăm quan khu Vin 🏖</td>
                 <td>18:00</td>
             </tr>
             <tr>
-                <td>Ăn tối tại khu Vin</td>
+                <td>Ăn tối tại khu Vin 🥩</td>
                 <td>20:00</td>
             </tr>
             <tr>
-                <td>Về nghỉ nơi</td>
+                <td>Về nghỉ nhơi 🛀</td>
                 <td>22:00</td>
             </tr>
-            <tr>
-                <td>Dạy dọn dẹp đồ</td>
-                <td>10:00</td>
+			<tr>
+                <td>Ngày 3/11</td>
+                <td></td>
             </tr>
             <tr>
-                <td>Checkout</td>
-                <td>11:00</td>
+                <td>Dạy dọn dẹp đồ 😖</td>
+                <td>11:30</td>
             </tr>
             <tr>
-                <td>Ăn trưa tại HN</td>
+                <td>Checkout 🚚</td>
                 <td>12:00</td>
             </tr>
             <tr>
-                <td>Đi học vẽ</td>
+                <td>Ăn trưa tại Hà Lội 🍝</td>
+                <td>12:00</td>
+            </tr>
+            <tr>
+                <td>Đi học vẽ 🖌</td>
                 <td>14:00</td>
+            </tr>
+			            <tr>
+                <td>Tổng tiền thanh toán</td>
+                <td>100 cái ôm cho bạn Nhong! ye</td>
             </tr>
         </tbody>
     </table>
 
-    <!-- Google Map -->
-    <div id="map"></div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script> <!-- Include confetti library -->
     <script>
+        let count = 0; // Initialize the count variable
+
         function createHeart() {
             const heart = document.createElement('i');
             heart.className = 'fas fa-heart heart';
@@ -282,49 +275,62 @@
             });
         }
 
-        function createLaughingFace() {
-            const face = document.createElement('i');
-            face.className = 'fas fa-laugh laughing-face';
-            face.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
-            face.style.animationDuration = '1s'; // Set a specific fall duration
-            document.body.appendChild(face);
-
-            // Remove face after animation completes
-            face.addEventListener('animationend', () => {
-                face.remove();
-            });
-        }
-
-        // Show table with animation
-        function showTable() {
+        // Function to handle "Yes" button click
+        function handleYes() {
+            // Show hidden paragraph
+            const hiddenParagraph = document.getElementById('hiddenParagraph');
+            hiddenParagraph.style.display = 'block'; // Show the paragraph
+            hiddenParagraph.style.opacity = 0; // Start with 0 opacity
+            hiddenParagraph.style.transition = 'opacity 1s'; // Fade-in effect
+            hiddenParagraph.style.opacity = 1; // Fade in effect
+            
+            // Show the No text
+            const noText = document.getElementById('noText');
+            noText.style.display = 'none'; // Hide the No confirmation text
+            
+            // Show the table with fade-in and slide-in animation
             const table = document.getElementById('scheduleTable');
             table.style.display = 'table'; // Show the table
-            table.style.animation = 'fadeInSlideIn 0.5s forwards'; // Apply animation
-        }
-
-        function handleYes() {
-            document.getElementById('hiddenParagraph').style.display = 'block'; // Show paragraph
-            showTable(); // Show table with animation
-        }
-
-        function handleNo() {
-            const buttonContainer = document.getElementById('buttonContainer');
-            const yesButton = document.getElementById('yesButton');
-            const noButton = document.getElementById('noButton');
-
-            yesButton.classList.add('swap-inward-left');
-            noButton.classList.add('swap-inward-right');
-
+            table.style.opacity = 0; // Start with 0 opacity
+            table.style.transform = 'translateY(20px)'; // Start position
+            table.style.animation = 'fadeInSlideIn 1s forwards'; // Apply fade-in slide-in animation
+            
+            // Show the table with fading effect
             setTimeout(() => {
-                noButton.classList.remove('swap-inward-right');
-                buttonContainer.insertBefore(noButton, yesButton);
-            }, 800);
+                table.style.opacity = 1; // Fade in effect
+                table.style.transform = 'translateY(0)'; // Slide in effect
+            }, 100); // Delay to trigger animation
 
-            createLaughingFace();
+            // Throw confetti
+            confetti();
         }
 
-        // Create hearts at intervals
-        setInterval(createHeart, 500);
+        // Function to handle "No" button click
+        function handleNo() {
+            count++; // Increment the count when No is clicked
+            if (count === 3) {
+                alert("Thui tui hỉu rùi, chị khum phải test hệ thống đâu bấm cóa đi 🙄🙄🙄"); // Alert when count reaches 5
+                count = 0; // Reset count to 0
+            }
+
+            // Shake the No button
+            const noButton = document.getElementById('noButton');
+            noButton.classList.add('shake'); // Add shaking class
+
+            // Show the No confirmation text
+            const noText = document.getElementById('noText');
+            noText.style.display = 'block'; // Show the confirmation text
+
+            // Remove shake class after animation completes to allow retriggering
+            setTimeout(() => {
+                noButton.classList.remove('shake');
+            }, 500);
+        }
+
+        // Start falling hearts on page load
+        window.onload = function() {
+            setInterval(createHeart, 300); // Create hearts every 300 ms
+        }
     </script>
 </body>
 </html>
