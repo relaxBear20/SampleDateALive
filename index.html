@@ -60,6 +60,31 @@
             z-index: 1;
         }
 
+        .schedule-table {
+            margin-top: 20px;
+            width: 80%;
+            max-width: 600px;
+            border-collapse: collapse;
+            background-color: #ffe6f2; /* Light pink background for the table */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            border: 1px solid #ff99cc; /* Light pink borders */
+            padding: 10px;
+            text-align: left;
+        }
+
+        .schedule-table th {
+            background-color: #ffccff; /* Light pink header background */
+            color: #000;
+        }
+
+        .schedule-table tr:nth-child(even) {
+            background-color: #ffe6f2; /* Light pink for even rows */
+        }
+
         .heart {
             position: absolute;
             font-size: 24px;
@@ -107,7 +132,7 @@
     <!-- SVG title with curved text -->
     <svg class="title-svg" viewBox="0 0 500 200">
         <path id="curve" d="M100,150 Q250,50 400,150" fill="transparent" />
-        <text width="500" style="font-size: 55px; fill: #cc6699; font-family: 'Mea Culpa', cursive; text-anchor: middle;">
+        <text width="500" style="font-size: 45px; fill: #cc6699; font-family: 'Mea Culpa', cursive; text-anchor: middle;">
             <textPath xlink:href="#curve" startOffset="50%">
                 Love is in the Air!
             </textPath>
@@ -121,6 +146,70 @@
 
     <!-- Hidden paragraph that shows after clicking Yes -->
     <p class="hidden-paragraph" id="hiddenParagraph">You clicked Yes! Love is truly in the air! 💖</p>
+
+    <!-- Schedule table -->
+    <table class="schedule-table" id="scheduleTable" style="display: none;">
+        <thead>
+            <tr>
+                <th>Activity</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Khởi hành</td>
+                <td>10:00</td>
+            </tr>
+            <tr>
+                <td>Ăn nhẹ sáng</td>
+                <td>10:10</td>
+            </tr>
+            <tr>
+                <td>Thăm quan bảo tàng + làm gốm</td>
+                <td>10:40</td>
+            </tr>
+            <tr>
+                <td>Ăn trưa</td>
+                <td>12:00</td>
+            </tr>
+            <tr>
+                <td>Chơi tại chợ gốm | đi cafe</td>
+                <td>13:10</td>
+            </tr>
+            <tr>
+                <td>Di chuyển tới KS</td>
+                <td>15:00</td>
+            </tr>
+            <tr>
+                <td>Thăm quan khu Vin</td>
+                <td>18:00</td>
+            </tr>
+            <tr>
+                <td>Ăn tối tại khu Vin</td>
+                <td>20:00</td>
+            </tr>
+            <tr>
+                <td>Về nghỉ nơi</td>
+                <td>22:00</td>
+            </tr>
+            <tr>
+                <td>Dạy dọn dẹp đồ</td>
+                <td>10:00</td>
+            </tr>
+            <tr>
+                <td>Checkout</td>
+                <td>11:00</td>
+            </tr>
+            <tr>
+                <td>Ăn trưa tại HN</td>
+                <td>12:00</td>
+            </tr>
+            <tr>
+                <td>Đi học vẽ</td>
+                <td>14:00</td>
+            </tr>
+        </tbody>
+    </table>
 
     <script>
         function createHeart() {
@@ -149,7 +238,9 @@
 
         function handleYes() {
             const paragraph = document.getElementById('hiddenParagraph');
+            const scheduleTable = document.getElementById('scheduleTable');
             paragraph.style.display = 'block';
+            scheduleTable.style.display = 'table'; // Show the schedule table when Yes is clicked
         }
 
         function handleNo() {
